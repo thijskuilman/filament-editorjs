@@ -11,6 +11,7 @@ import RawTool from "@editorjs/raw";
 import Delimiter from "@editorjs/delimiter";
 import { StyleInlineTool } from "editorjs-style";
 import DragDrop from "editorjs-drag-drop";
+import Embed from '@editorjs/embed';
 
 document.addEventListener("alpine:init", () => {
   Alpine.data(
@@ -68,18 +69,18 @@ document.addEventListener("alpine:init", () => {
             },
           };
         }
-        if (this.tools.includes("delimiter"))
-          enabledTools.delimiter = Delimiter;
+        if (this.tools.includes("delimiter")) enabledTools.delimiter = Delimiter;
         if (this.tools.includes("list")) enabledTools.list = List;
-        if (this.tools.includes("underline"))
-          enabledTools.underline = Underline;
+        if (this.tools.includes("underline")) enabledTools.underline = Underline;
         if (this.tools.includes("quote")) enabledTools.quote = Quote;
         if (this.tools.includes("table")) enabledTools.table = Table;
         if (this.tools.includes("raw")) enabledTools.raw = RawTool;
         if (this.tools.includes("code")) enabledTools.code = Code;
-        if (this.tools.includes("inline-code"))
-          enabledTools.inlineCode = InlineCode;
+        if (this.tools.includes("inline-code")) enabledTools.inlineCode = InlineCode;
         if (this.tools.includes("style")) enabledTools.style = StyleInlineTool;
+        if (this.tools.includes("style")) enabledTools.style = StyleInlineTool;
+        if (this.tools.includes("embed")) enabledTools.embed = Embed;
+
         this.instance = new EditorJS({
           holder: this.$el,
           minHeight: minHeight,
