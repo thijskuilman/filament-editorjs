@@ -103,7 +103,7 @@ document.addEventListener("alpine:init", () => {
                   collectible: {
                     regex: new RegExp('http[s]?:\/\/' + window.location.host + '\/.*\/collectibles\/([^\/\?\&]+)?.*'),
                     embedUrl: window.location.origin + '/en/collectibles/<%= remote_id %>/embed',
-                    html: "<iframe height='280px' scrolling='no' frameborder='no' allowtransparency='true' style='width: 100%;'></iframe>",
+                    html: "<iframe height='115px' scrolling='no' frameborder='no' allowtransparency='true' style='width: 100%;'></iframe>",
                     height: 300,
                     width: 600,
                     caption: false,
