@@ -103,7 +103,7 @@ document.addEventListener("alpine:init", () => {
                   collectible: {
                     regex: new RegExp('http[s]?:\/\/' + window.location.host + '\/.*\/collectibles\/([^\/\?\&]+)?.*'),
                     embedUrl: window.location.origin + '/en/collectibles/<%= remote_id %>/embed',
-                    html: "<iframe height='115px' scrolling='no' frameborder='no' allowtransparency='true' style='width: 100%;'></iframe>",
+                    html: "<iframe height='280px' scrolling='no' frameborder='no' allowtransparency='true' style='width: 100%;'></iframe>",
                     height: 300,
                     width: 600,
                     caption: false,
@@ -130,6 +130,60 @@ document.addEventListener("alpine:init", () => {
             },
             onReady: () => {
               new DragDrop(this.instance);
+              let self = this.instance;
+
+              document.addEventListener('keyup', event => {
+                if (document.activeElement.classList.contains('ce-paragraph')) {
+                  let blockIndex = self.blocks.getCurrentBlockIndex();
+                  let currentBlock = self.blocks.getBlockByIndex(blockIndex);
+                  let htmlElement = currentBlock.holder.querySelector('.cdx-block');
+                  let currentText = document.activeElement.innerHTML;
+
+                  if (currentText.includes('#')) {
+                    let tests = [...currentText.matchAll(new RegExp('#', 'gi'))].map(a => a.index)
+
+                    tests.forEach(function (charPosition) {
+
+                      if (!currentText.substring(charPosition, charPosition + 20).includes('data-mention') && !currentText.substring(charPosition, charPosition + 20).includes('href')) {
+                        var hrefText = '<a data-mention="" href="https://tweakers2.net">Tweakers</a>';
+                        var newText = currentText.slice(0, charPosition + 1) + hrefText + currentText.slice(charPosition + 1);
+                        self.blocks.update(currentBlock.id, {'text': newText});
+                        // self.caret.setToBlock(blockIndex, )
+                      }
+                    });
+                  }
+
+                  if (currentText.includes('@')) {
+                    let tests = [...currentText.matchAll(new RegExp('@', 'gi'))].map(a => a.index)
+
+                    tests.forEach(function (charPosition) {
+
+                      if (!currentText.substring(charPosition, charPosition + 20).includes('data-mention') && !currentText.substring(charPosition, charPosition + 20).includes('href')) {
+                        var hrefText = '<a data-mention="" href="http://consolevariations.test/en/profile/qrobel">qrobel</a>';
+                        var newText = currentText.slice(0, charPosition + 1) + hrefText + currentText.slice(charPosition + 1);
+                        self.blocks.update(currentBlock.id, {'text': newText});
+                        // self.caret.setToBlock(blockIndex, )
+                      }
+                    });
+                  }
+                }
+
+                //
+                // let lastCharacter = currentText.charAt(currentText.length - 1);
+                //
+                // if (lastCharacter == "#") {
+                //     self.blocks.update(currentBlock.id, {'text': htmlElement.innerHTML + '<a href="https://tweakers.net">Tweakers</a>'});
+                //     self.caret.setToBlock(blockIndex, 'end')
+                //
+                // }
+                //
+                // if (lastCharacter == "@") {
+                //     self.blocks.update(currentBlock.id, {'text': htmlElement.innerHTML + '<a href="http://consolevariations.test/en/profile/qrobel">qrobel</a>'});
+                //     self.caret.setToBlock(blockIndex, 'end')
+                //
+                // }
+                // }
+              })
             },
           });
         },
