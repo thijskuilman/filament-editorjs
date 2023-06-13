@@ -91,8 +91,9 @@ document.addEventListener("alpine:init", () => {
           if (this.tools.includes("inline-code")) enabledTools.inlineCode = InlineCode;
           if (this.tools.includes("style")) enabledTools.style = StyleInlineTool;
           if (this.tools.includes("style")) enabledTools.style = StyleInlineTool;
-
           if (this.tools.includes("embed")) {
+
+            let collectibleRegex = new RegExp('http[s]?:\\/\\/' + window.location.host + '\\/([^/]*\\/)?collectibles\\/([^\\s]+)?.*');
 
             enabledTools.embed = {
               class: CustomEditorJSEmbed,
@@ -101,13 +102,18 @@ document.addEventListener("alpine:init", () => {
                   youtube: true,
                   coub: true,
                   collectible: {
-                    regex: new RegExp('http[s]?:\/\/' + window.location.host + '\/.*\/collectibles\/([^\/\?\&]+)?.*'),
+                    regex: new RegExp(collectibleRegex),
                     embedUrl: window.location.origin + '/collectibles/<%= remote_id %>/embed',
                     html: "<iframe height='115px' scrolling='no' frameborder='no' allowtransparency='true' style='width: 100%;'></iframe>",
                     height: 300,
                     width: 600,
                     caption: false,
-                    id: (groups) => groups.join('/embed/')
+                    id: (groups) => {
+                      console.log(groups);
+                      console.log(groups.at(-1));
+                      console.log("OK 5");
+                      return groups.at(-1);
+                    }
                   }
                 }
               }
