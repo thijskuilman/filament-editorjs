@@ -24,6 +24,34 @@ export default class CustomEditorJSEmbed extends Embed {
   }
 }
 
+class Advertisement {
+  static get toolbox() {
+    return {
+      title: 'Advertisement',
+      icon: '<svg width="17" height="15" viewBox="0 0 336 276" xmlns="http://www.w3.org/2000/svg"><path d="M291 150V79c0-19-15-34-34-34H79c-19 0-34 15-34 34v42l67-44 81 72 56-29 42 30zm0 52l-43-30-56 30-81-67-66 39v23c0 19 15 34 34 34h178c17 0 31-13 34-29zM79 0h178c44 0 79 35 79 79v118c0 44-35 79-79 79H79c-44 0-79-35-79-79V79C0 35 35 0 79 0z"/></svg>'
+    };
+  }
+
+  render(){
+    this.wrapper = document.createElement('div');
+    const span = document.createElement('span');
+
+    this.wrapper.appendChild(span);
+
+    this.wrapper.style = 'background-color: #6366f1; border-radius: 5px; padding: 15px 10px; color: #fff; text-align: center';
+
+    span.innerText = 'Advertisement';
+
+    return this.wrapper;
+  }
+
+  save(blockContent){
+    return {
+      url: blockContent.value
+    }
+  }
+}
+
 document.addEventListener("alpine:init", () => {
   Alpine.data(
       "editorjs",
@@ -91,6 +119,8 @@ document.addEventListener("alpine:init", () => {
           if (this.tools.includes("inline-code")) enabledTools.inlineCode = InlineCode;
           if (this.tools.includes("style")) enabledTools.style = StyleInlineTool;
           if (this.tools.includes("style")) enabledTools.style = StyleInlineTool;
+          if (this.tools.includes("advertisement")) enabledTools.advertisement = Advertisement;
+
           if (this.tools.includes("embed")) {
 
             let collectibleRegex = new RegExp('http[s]?:\\/\\/' + window.location.host + '\\/([^/]*\\/)?collectibles\\/([^\\s]+)?.*');
@@ -109,9 +139,6 @@ document.addEventListener("alpine:init", () => {
                     width: 600,
                     caption: false,
                     id: (groups) => {
-                      console.log(groups);
-                      console.log(groups.at(-1));
-                      console.log("OK 5");
                       return groups.at(-1);
                     }
                   }
